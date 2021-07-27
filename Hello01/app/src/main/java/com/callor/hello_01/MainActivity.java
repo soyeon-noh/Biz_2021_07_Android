@@ -2,11 +2,16 @@ package com.callor.hello_01;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.callor.hello_01.ui.login.LoginActivity;
 import com.google.android.material.snackbar.Snackbar;
 
 /*
@@ -26,6 +31,11 @@ public class MainActivity extends AppCompatActivity {
     private TextView txt2 = null;
 
     private EditText edit_01 = null;
+
+    private Button btn_next = null;
+    private Button btn_login = null;
+    private Button btn_phone = null;
+
 
     /*
     on* () method는 대체로 event Handler 들이다
@@ -51,6 +61,67 @@ public class MainActivity extends AppCompatActivity {
         txt2 = findViewById(R.id.txt_02);
 
         edit_01 = findViewById(R.id.edit_01);
+
+        btn_next = findViewById(R.id.btn_next);
+        btn_login = findViewById(R.id.btn_login);
+        btn_phone = findViewById(R.id.btn_phone);
+
+        // click event를 처리할 event handler를 선언하기
+        //      이거 하나 선언하고 여러 클릭을 핸들링할 수 있음! -> 아이디로 구분!
+        // interface를 사용하여 직접 객체를 생성하는 방법
+        //      정통자바에서는 interface를 impliment 한 클래스를 작성하고
+        //      클래스를 사용하여 객체를 선언(생성, 초기화)하였는데
+        //      interface를 직접 객체를 사용하는 용도로 활용하기
+        View.OnClickListener btn_click = new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+
+                if(v.getId() == R.id.btn_login){
+
+                    Intent intent
+                            = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+
+                } else if(v.getId() == R.id.btn_next){
+                    /*
+                    Intent(인텐트)
+                    Android에서 Activity를 부르는 다른 이름
+                    Activity의 super parent 클래스
+
+                    새로운 Activity를 보여주는 절차
+                    1. Intent 클래스를 사용하여 인텐트 생성
+                    2. startActivity() method를 호출하여
+                        새로운 Activity로 화면전환
+
+                    startActivity() : 이미 준비된 method
+                    */
+
+                    // MainActivity에서 SecondActivity를 띄우고싶다! 변환시키고 싶다!
+                    //      메인에서 세컨트를 호출하고 인텐트를 선언한다음, startActivity로 넘겨준다
+                    //      안드로이드에서 this는 좀 다르대
+                    Intent intent
+                            = new Intent(MainActivity.this,SecondActivity.class);
+                    startActivity(intent);
+                } else if(v.getId() == R.id.btn_phone){
+                    // 즉시 전화걸기(권한필요)
+//                    Intent intent
+//                            = new Intent(Intent.ACTION_CALL, Uri.parse("tel:010-9652-8085"));
+
+                    // 전화걸기 화면 띄우기
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:010-9652-8085"));
+                    startActivity(intent);
+                }
+            }
+        };
+
+        // 하나의 event handler를 생성하여
+        // 2개의 버튼에 동시에 적용하기
+        btn_next.setOnClickListener(btn_click); // 클릭되면 onClick의 매개변수에 자기 자신을 담음
+        btn_login.setOnClickListener(btn_click);
+        btn_phone.setOnClickListener(btn_click);
+
+
+
 
         txt1.setText("우리나라 만세");
         txt2.setText("대한민국 만세");
