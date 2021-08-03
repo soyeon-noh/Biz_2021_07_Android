@@ -11,6 +11,7 @@
         android:layout_height="match_parent"
         android:text="홍길동"
         android:textSize="15sp"
+        android:textColor="#00AAAA"
         android:textStyle="bold" />
 
     <TextView

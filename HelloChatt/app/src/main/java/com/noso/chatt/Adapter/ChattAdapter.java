@@ -48,16 +48,29 @@ public class ChattAdapter
          * layoutInflater.inflate() 함수를 사용하여 만든다다         */
         View item_layout
             = LayoutInflater.from(parent.getContext())
-            .inflate(R.layout.chatt_item,parent, false);
+            .inflate(R.layout.chatt_item,parent, false); // inflate 해서
 
         ChattViewHolder viewHolder
-                = new ChattViewHolder(item_layout);
+                = new ChattViewHolder(item_layout); // ChattViewHolder에 전달해준다
 
         return viewHolder; // 데이터를 보여주기위한 기본구성을 만들어주는 것
     }
 
+    // holder - item의 한개한개씩을 전달받는것
+    // position - chattList의 몇번째를
+
+    // charttlist에서 한개의 데이터를 getter하여
+    // chat_item.xml파일과 함께 rendering을 수행할 method
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        // 전체 chattList에서 현재 화면에 그릴 item 추출하기
+        Chatt chat = chattList.get(position);
+        ChattViewHolder chattViewHolder = (ChattViewHolder) holder;
+
+        // chat_item.xml 의 TextView 객체에 데이터를 담기
+        chattViewHolder.item_name.setText(chat.getName());
+        chattViewHolder.item_msg.setText(chat.getMsg());
 
     }
 
@@ -76,11 +89,15 @@ public class ChattAdapter
         public TextView item_name;
         public TextView item_msg;
 
+        // 각 데이터를 표현하기 위한
+        // chat_item.xml의 view 객체(두개의 TextView)를
+        // 초기화(생성)하는 method
         public ChattViewHolder(@NonNull View itemView) {
             super(itemView);
             item_name = itemView.findViewById(R.id.item_name);
-            item_msg = itemView.findViewById(R.id.msg_Linear);
+            item_msg = itemView.findViewById(R.id.item_msg);
 
         }
+        // 1. 여기까지 보여주기위한 준비단계
     }
 }
