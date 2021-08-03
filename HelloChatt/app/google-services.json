@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "346600824648",
+    "project_id": "helloandroid-b1e64",
+    "storage_bucket": "helloandroid-b1e64.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346600824648:android:f5f6f45f7805b28faedd7d",
+        "android_client_info": {
+          "package_name": "com.noso.hellochatt"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346600824648-g0ueqhde5oacd1fcnqk37qmv3hk34ari.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDPHborF_yEOmrTPpiZLzDf2aPlCSnO9F0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346600824648-g0ueqhde5oacd1fcnqk37qmv3hk34ari.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
