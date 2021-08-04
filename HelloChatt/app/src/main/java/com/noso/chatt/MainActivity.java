@@ -12,11 +12,13 @@ import android.util.Log;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.noso.chatt.Adapter.ChattAdapter;
 import com.noso.chatt.model.Chatt;
+import com.noso.chatt.service.FirebaseServiceImplV1;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,13 +48,6 @@ public class MainActivity extends AppCompatActivity {
         */
         setContentView(R.layout.activity_main);
 
-        FirebaseDatabase dbConn = FirebaseDatabase.getInstance();
-        // 사용할 table
-        // RealtimeDatabase에서는 table을 path라는 개념으로 부른다
-        dbRef = dbConn.getReference("chatting");
-
-        txt_msg = findViewById(R.id.txt_msg);
-        btn_send = findViewById(R.id.btn_send);
 
         chat_list_view = findViewById(R.id.chatt_list_view);
 
@@ -60,22 +55,6 @@ public class MainActivity extends AppCompatActivity {
 
         // 0. 보여줄 데이터 객체 생성
         chattList = new ArrayList<Chatt>();
-
-        // 테스트를 위한 가상의 데이터 생성
-        Chatt chatt = new Chatt();
-        chatt.setName("홍길동");
-        chatt.setMsg("반갑습니다");
-        chattList.add(chatt);
-
-        chatt = new Chatt();
-        chatt.setName("성춘향");
-        chatt.setMsg("안녕하세요");
-        chattList.add(chatt);
-
-        chatt = new Chatt();
-        chatt.setName("이몽룡");
-        chatt.setMsg("오늘은 좋은날");
-        chattList.add(chatt);
 
         // 1. Adapter 객체 생성
         //      Adapter 객체를 생성할 때 보여줄 데이터 객체를
@@ -91,6 +70,44 @@ public class MainActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager
                 = new LinearLayoutManager(this);
         chat_list_view.setLayoutManager(layoutManager);
+
+        FirebaseDatabase dbConn = FirebaseDatabase.getInstance();
+
+        // 사용할 table
+        // RealtimeDatabase에서는 table을 path라는 개념으로 부른다
+
+        dbRef = dbConn.getReference("chatting");
+
+        // fireabse로 부터 데이터 변화가 전달되면
+        // 이벤트를 수신하여 할일을 지정하기 위한 핸들러 선언
+        ChildEventListener childEventListener
+                = new FirebaseServiceImplV1(chattAdapter);
+
+        // 이벤트 핸들러 연결
+        dbRef.addChildEventListener(childEventListener);
+
+        txt_msg = findViewById(R.id.txt_msg);
+        btn_send = findViewById(R.id.btn_send);
+
+
+
+        // 테스트를 위한 가상의 데이터 생성
+//        Chatt chatt = new Chatt();
+//        chatt.setName("홍길동");
+//        chatt.setMsg("반갑습니다");
+//        chattList.add(chatt);
+//
+//        chatt = new Chatt();
+//        chatt.setName("성춘향");
+//        chatt.setMsg("안녕하세요");
+//        chattList.add(chatt);
+//
+//        chatt = new Chatt();
+//        chatt.setName("이몽룡");
+//        chatt.setMsg("오늘은 좋은날");
+//        chattList.add(chatt);
+
+
 
         /*
          * EditBox에 메시지를 입력하고 Send 버튼을 클릭했을때 할일 지정하기
