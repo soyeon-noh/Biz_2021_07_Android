@@ -5,9 +5,12 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -36,11 +39,25 @@ public class MainActivity extends AppCompatActivity {
 
     private DatabaseReference dbRef;
 
+    private String nickname = "익명";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // preferences 뭘..변경하면 자동으로 save된대. 지금 닉네임과 알람설정
+        SharedPreferences preferences
+                = PreferenceManager.getDefaultSharedPreferences(this);
+
+        nickname = preferences.getString("nick_name",
+                "익명");
+        String alarm = preferences.getString("alarm","ON");
+
+        Log.d("닉네임",nickname);
+        Log.d("alarm", alarm);
+
+        // custom 된 toolbar를 ActionBar로 설정하기 위한 코드
         // 기존액션바말고 내가 커스터마이징한 액션바를 가져오겠다.
         Toolbar main_toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(main_toolbar);
@@ -58,9 +75,13 @@ public class MainActivity extends AppCompatActivity {
         btn_send = findViewById(R.id.btn_send);
         chat_list_view = findViewById(R.id.chatt_list_view);
 
+        // 0. 보여줄 데이터 객체 생성
         chattList = new ArrayList<Chatt>();
 
-        chattAdapter = new ChattAdapter(chattList);
+        // 1. Adpter 객체 생성
+//      chattAdapter = new ChattAdapter(chattList);
+        // 1-1 App에 등록된 nickname을 Adapter에 데이터와 함께 전달하기
+        chattAdapter = new ChattAdapter(chattList, nickname);
 
         chat_list_view.setAdapter(chattAdapter);
 
@@ -89,8 +110,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Chatt chatVO = new Chatt();
                 chatVO.setMsg(msg);
-                chatVO.setName("노소노소");
-
+                chatVO.setName(nickname);
                 Log.d("클릭", chatVO.toString());
 
                 dbRef.push().setValue(chatVO);
@@ -125,10 +145,18 @@ public class MainActivity extends AppCompatActivity {
      */
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        // 매개변수 item에 우리가 클릭한 item의 id값이 넘어올 것이다.
 
         int menu_item = item.getItemId();
         if(menu_item == R.id.app_bar_settings){ //search 버튼이 클릭되면
-            Toast.makeText(this, "설정메뉴 클릭됨", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,
+                    "설정메뉴 클릭됨",
+                    Toast.LENGTH_SHORT).show();
+
+            Intent setting_intent
+                    = new Intent(MainActivity.this, SettingsActivity.class);
+            startActivity(setting_intent);
+
             return true;
         }
 

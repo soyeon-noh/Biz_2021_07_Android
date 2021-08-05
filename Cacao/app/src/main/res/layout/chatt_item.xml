@@ -3,7 +3,7 @@
     android:id="@+id/msg_linear"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:gravity="end"
+    android:gravity="start"
     android:orientation="vertical">
 
     <TextView
