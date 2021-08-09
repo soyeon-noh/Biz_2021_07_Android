@@ -39,10 +39,9 @@ public class NaverAPIServiceV1 extends Thread {
                 .getNaverBook(
                         Naver.CLIENT_ID,
                         Naver.CLIENT_SECRET,
-                        search
-//                        10,
-//                        1
-                );
+                        search,
+                        50,
+                        1);
 
         /*
          * Retrofit 은 API요청을 비동기 방식으로 수행한다.

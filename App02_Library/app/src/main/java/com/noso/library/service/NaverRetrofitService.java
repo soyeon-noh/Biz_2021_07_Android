@@ -36,9 +36,9 @@ public interface NaverRetrofitService {
     Call<NaverParent> getNaverBook( // 3개의 매개변수
             @Header("X-Naver-Client-Id") String clientId,
             @Header("X-Naver-Client-Secret") String clientSecret,
-            @Query("query") String query
-//            @Query("DISPLAY") int display,
-//            @Query("start") int start
+            @Query("query") String query,
+            @Query("DISPLAY") int display,
+            @Query("start") int start
 
     // 헤더값과 쿼리값을 매개변수로 받아서 설정하겠다.
     );
