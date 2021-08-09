@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.noso.library">
 
+    // 우리 어플리케이션에서 인터넷을통해 외부에서 접속하는 것을 허용하겠다.
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"

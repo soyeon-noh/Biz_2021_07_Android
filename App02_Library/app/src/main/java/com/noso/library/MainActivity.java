@@ -14,6 +14,7 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.noso.library.databinding.ActivityMainBinding;
+import com.noso.library.service.NaverAPIServiceV1;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -66,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                NaverAPIServiceV1 naver = new NaverAPIServiceV1();
+                naver.getNaverBooks("자바");
+
             }
         });
     }
