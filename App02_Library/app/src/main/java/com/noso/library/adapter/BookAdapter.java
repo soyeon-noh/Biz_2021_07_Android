@@ -1,12 +1,17 @@
 package com.noso.library.adapter;
 
+import android.graphics.Color;
 import android.os.Build;
 import android.text.Html;
+import android.text.Spannable;
 import android.text.Spanned;
+import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.noso.library.databinding.BookItemViewBinding;
@@ -36,23 +41,41 @@ public class BookAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         return viewHolder;
     }
 
-    private Spanned getHTML(String text) {
-        Spanned htmlText;
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.N){
-            htmlText = Html.fromHtml(text,Html.FROM_HTML_MODE_LEGACY);
-        } else {
-            htmlText = Html.fromHtml(text,Html.FROM_HTML_MODE_COMPACT);
-        }
-        return  htmlText;
-    }
-
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
 
         BookViewHolder bookHolder = (BookViewHolder) holder;
         BookDTO bookDTO = bookList.get(position);
-        Spanned viewHTML = getHTML(bookDTO.getTitle());
-        bookHolder.bookItemView.itemTxtTitle.setText(viewHTML);
+
+        TextView txt_title = bookHolder.bookItemView.itemTxtTitle;
+        /*
+         * HtmpCompat.fromHtml()
+         * 문자열 내에 HTML 가 포함되어 있으면
+         * tag의 효과를 적용하면  문자열을 화면에 그리기 위한 변환 method
+         * Nougat(7.0이상에서만 작동되는 method
+         * Nouga 이하에서는 원래 작동되었는데 최근 Androdid 에서는 제거되었다.
+         */
+
+
+        // (이게 꼼수)
+        String strTitle = "<font color=blue>" + bookDTO.getTitle() + "</font>";
+
+        strTitle = "<span style='color:#0000FF'>";
+        strTitle += bookDTO.getTitle() + "</span>";
+
+        txt_title.setText(
+                HtmlCompat.fromHtml( // 원래 html 코드 지우는 함수
+                        strTitle, HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        // 색하나바꾸는데 이런 복잡한 코드 쓰지 않아도된다. (원래 안드로이드 방법이 이것)
+        /*
+        Spannable span = (Spannable)txt_title.getText();
+        span.setSpan(new ForegroundColorSpan(Color.BLUE),
+                0,
+                txt_title.getText().length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+         */
     }
 
     @Override
