@@ -21,7 +21,9 @@ import retrofit2.Response;
 public class NaverBookServiceImplV1 implements NaverBookService {
 
     protected RecyclerView recyclerView;
-    public NaverBookServiceImplV1(RecyclerView recyclerView) {
+
+    // 자동생성자자
+   public NaverBookServiceImplV1(RecyclerView recyclerView) {
         this.recyclerView = recyclerView; // 서비스에서 recyclerView를 유인할수있는 준비가됐다?
     }
 
