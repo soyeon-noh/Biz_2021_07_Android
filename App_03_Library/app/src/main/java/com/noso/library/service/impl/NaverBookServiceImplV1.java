@@ -2,17 +2,28 @@ package com.noso.library.service.impl;
 
 import android.util.Log;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.noso.library.adapter.BookViewAdapter;
 import com.noso.library.config.NaverAPI;
 import com.noso.library.model.NaverBookDTO;
 import com.noso.library.model.NaverParent;
 import com.noso.library.service.NaverBookService;
 import com.noso.library.service.RetrofitAPIClient;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class NaverBookServiceImplV1 implements NaverBookService {
+
+    protected RecyclerView recyclerView;
+    public NaverBookServiceImplV1(RecyclerView recyclerView) {
+        this.recyclerView = recyclerView; // 서비스에서 recyclerView를 유인할수있는 준비가됐다?
+    }
 
     public NaverBookDTO getBooks(String search) {
 
@@ -58,7 +69,7 @@ public class NaverBookServiceImplV1 implements NaverBookService {
          * CallBack interface를 익명 클래스로 선언하는 코드
          *      Skeletone Code(익명 클래스)
          */
-        retrofitReturn.enqueue(new Callback<NaverParent>() {
+        retrofitReturn.enqueue(new Callback<NaverParent>() { // 데이터가 도착하는것
             @Override
             public void onResponse(Call<NaverParent> call, Response<NaverParent> response) {
                 // 응답을 받았을때 Http Code가 무엇인지 확인하기 위하여
@@ -67,6 +78,30 @@ public class NaverBookServiceImplV1 implements NaverBookService {
                 if(resCode < 300){
                     Log.d("네이버 응답데이터 : ",
                             response.body().toString());
+                    // Naver에서 수신한 전체 데이터
+                    NaverParent naverParent = response.body();
+
+                    // Naver에서 수신한 전체 데이터에서
+                    // 도서 리스트 정보만 추출하기
+                    List<NaverBookDTO> bookList = naverParent.items;
+
+                    // 도서 리스트를 사용하여 RecyclerView에 데이터를
+                    // 표현하기 위한 Adapter를 생성하기
+                    BookViewAdapter bookViewAdapter = new BookViewAdapter(bookList);
+
+
+                    // MainActivity에서 전달받은 recyclerView에
+                    // Adapter를 setting
+                    recyclerView.setAdapter(bookViewAdapter);
+
+                    // 화면에 데이터들을 표현하는데 리스트를 관리할
+                    // Layout Manager를 설정하기
+                    RecyclerView.LayoutManager layoutManager
+                            = new LinearLayoutManager(recyclerView.getContext());
+                    recyclerView.setLayoutManager(layoutManager);
+
+
+
                 } else {
                     Log.d("오류 발생: ", response.toString());
                 }
