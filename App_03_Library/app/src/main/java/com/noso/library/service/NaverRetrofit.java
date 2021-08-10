@@ -1,5 +1,7 @@
 package com.noso.library.service;
 
+import com.noso.library.model.NaverParent;
+
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
@@ -42,7 +44,7 @@ public interface NaverRetrofit {
      *      Generic으로 설정해 준다.
     */
     @GET("book.json")
-    public Call getBook(
+    public Call<NaverParent> getBook(
             @Header("X-Naver-Client-Id") String clientId, // 대소문자 꼭 똑같이 해줘야한다! 언더바 아님!!
             @Header("X-Naver-Client-Secret") String clientSecret,
             @Query("query") String query,
