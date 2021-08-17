@@ -11,13 +11,6 @@
         android:label="@string/first_fragment_label"
         tools:layout="@layout/fragment_first">
 
-        <!-- 다른 fragment를 열때 데이터를 전달하기 위한 설정 -->
-
-        <argument
-            android:name="movie_name"
-            app:argType="string"
-            app:nullable="true"
-            />
         <action
             android:id="@+id/action_FirstFragment_to_SecondFragment"
             app:destination="@id/SecondFragment" />
@@ -35,6 +28,10 @@
         <action
             android:id="@+id/action_SecondFragment_to_FirstFragment"
             app:destination="@id/FirstFragment" />
+        <!-- fragment에 데이터를 보낼때 사용할 속성 -->
+        <argument
+            android:name="movie_search"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/settingsFragment"

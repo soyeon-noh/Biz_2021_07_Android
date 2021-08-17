@@ -3,6 +3,7 @@ package com.noso.movies;
 import android.os.Bundle;
 
 import com.google.android.material.snackbar.Snackbar;
+import com.noso.movies.databinding.ActivityMainBinding;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,7 +16,6 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.noso.movies.databinding.ActivityMainBinding;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -101,6 +101,10 @@ public class MainActivity extends AppCompatActivity {
 
                     여기서 생성된 action 객체에
                     fragment에 전달할 데이터를 실어서 보낸다
+
+                    fragment에 전달할 데이터는
+                    NavDirections 객체를 생성할때
+                    매개변수로 전달한다.
                      */
                     NavDirections action
                             = FirstFragmentDirections.actionFirstFragmentToSecondFragment(s);
