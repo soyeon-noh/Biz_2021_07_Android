@@ -49,14 +49,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu) { // menu 액션바의 모든것
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        SearchView searchView = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+        // menu_main.xml 에 item으로 설정된 항목중
+        // SearchView 클래스가 지정된 item을 가져와서
+        // SearchView 객체로 생성하기
+        SearchView searchView
+                = (SearchView) menu.findItem(R.id.app_bar_search).getActionView();
+
         searchView.setMaxWidth(Integer.MAX_VALUE);
         searchView.setQueryHint("영화 검색");
 
+        // 검색창에 검색어를 입력하고
+        // 키보드의 검색(search icon)을 클릭했을때
+        // 반응하는 event 핸들러
+
+        // 검색창에 문자열을 입력할때, 검색을 클릭했을때
+        // 반응하는 event
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -81,6 +92,9 @@ public class MainActivity extends AppCompatActivity {
                             MainActivity.this,
                             R.id.nav_host_fragment_content_main);
 
+                    // 열려있는 Search 창을 닫는 method
+                    menu.findItem(R.id.app_bar_search).collapseActionView();
+
                     // 만약 firstfragment 화면이 아닌경우
                     // SecondFragment 화면이 열려 있는 상태이면
                     // 위로 가기를 한번 실행하고
@@ -90,9 +104,11 @@ public class MainActivity extends AppCompatActivity {
 
                 }
 
+
                 return false;
             }
 
+            // 자동완성기능 구현할때 사용하는 method 하지만 안드로이드에서 구현하면 느려지고 렉이걸릴가능성높음
             @Override
             public boolean onQueryTextChange(String s) {
                 return false;

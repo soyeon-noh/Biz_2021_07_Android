@@ -34,11 +34,12 @@ public class SecondFragment extends Fragment {
            String movie_search
                     = getArguments().getString("movie_search", "");
            Log.d("movie_search", movie_search);
-            NaverApiService naverApiService = new NaverMovieServiceImplV1(binding.movieListView);
+
+
+            NaverApiService naverApiService
+                    = new NaverMovieServiceImplV1(binding.movieListView);
             naverApiService.getNaverData(movie_search);
-
         }
-
         return binding.getRoot();
 
     }
