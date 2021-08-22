@@ -10,7 +10,7 @@ import retrofit2.http.Query;
 public interface NaverRetrofit {
 
     @GET("book.json")
-    public Call<NaverParent> getBook(
+    public Call<NaverParent> getMovie(
             @Header("X-Naver-Client-Id") String clientId,
             @Header("X-Naver-Client-Secret") String clientSecret,
             @Query("query") String query,
